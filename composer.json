@@ -1,21 +1,25 @@
 {
-    "name": "laravel/laravel",
+    "name": "quadstudio/restful-api-demo",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "The RESTful API demo project.",
     "keywords": [
-        "framework",
-        "laravel"
+        "restful",
+        "api"
     ],
     "license": "MIT",
     "require": {
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
+        "intervention/image": "^2.5",
         "laravel/framework": "^6.2",
+        "laravel/passport": "^8.3",
         "laravel/tinker": "^2.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.2",
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",
+        "laravel/ui": "^1.1",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
         "phpunit/phpunit": "^8.0"
