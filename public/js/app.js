@@ -2181,7 +2181,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       date: new Date(),
       ru: vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_2__["ru"],
       dropzone: null,
-      src: '/storage/images/default.png',
+      src: 'https://dummyimage.com/720x405/aaa/fff',
       item: {
         title: null,
         annotation: null,

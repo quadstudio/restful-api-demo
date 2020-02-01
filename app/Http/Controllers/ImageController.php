@@ -38,7 +38,7 @@ class ImageController extends Controller
 			->fit($data['width'], $data['height'])
 			->save(storage_path('app/public/images/'.$data['image']->hashName()));
 		$imageModel = $this->images->store([
-			'path' => $image,
+			'path' => '/storage/'.$image,
 			'width' => $data['width'],
 			'height' => $data['height'],
 			'storage' => $data['storage'],

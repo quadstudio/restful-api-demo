@@ -48,7 +48,7 @@ class ImageTest extends TestCase
 		$response->assertCreated();
 		Storage::disk('public')->assertExists('images/' . $file->hashName());
 		$image = Image::query()->first();
-		$this->assertEquals('images/' . $file->hashName(), $image->getAttribute('path'));
+		$this->assertEquals('/storage/images/' . $file->hashName(), $image->getAttribute('path'));
 		$this->assertEquals(720, $image->getAttribute('width'));
 		$this->assertEquals(405, $image->getAttribute('height'));
 		$this->assertEquals('news', $image->getAttribute('storage'));
@@ -63,7 +63,7 @@ class ImageTest extends TestCase
 						'storage' => $image->getAttribute('storage'),
 					],
 					"links" => [
-						'self' => url(Storage::url($image->getAttribute('path'))),
+						'self' => $image->getAttribute('path'),
 					]
 				],
 			]);

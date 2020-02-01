@@ -27,7 +27,7 @@ class ImageResource extends JsonResource
 					'height' => $this->getAttribute('height'),
 				],
 				"links" => [
-					"self" => url(Storage::url($this->getAttribute('path'))),
+					"self" => $this->getAttribute('path'),
 				],
 			],
 		];

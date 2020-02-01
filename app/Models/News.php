@@ -64,7 +64,7 @@ class News extends Model
 			->where('storage', 'news')
 			->orderByDesc('id')
 			->withDefault([
-				'path' => 'images/default.png',
+				'path' => 'https://dummyimage.com/720x405/aaa/fff',
 				'storage' => 'news',
 				'width' => 720,
 				'height' => 405,

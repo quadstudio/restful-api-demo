@@ -94,7 +94,7 @@
                 date: new Date(),
                 ru: ru,
                 dropzone: null,
-                src: '/storage/images/default.png',
+                src: 'https://dummyimage.com/720x405/aaa/fff',
                 item: {
                     title: null,
                     annotation: null,
