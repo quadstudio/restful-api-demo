@@ -6,7 +6,15 @@
         "restful",
         "api"
     ],
+    "version": "0.1.0",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexander Shuleyko",
+            "email": "salex009@gmail.com",
+            "homepage": "https://github.com/quadstudio"
+        }
+    ],
     "require": {
         "php": "^7.2",
         "ext-gd": "*",
