@@ -15,7 +15,7 @@
             </template>
         </div>
         <p v-if="newsStatus === 'loading'">Загружаем новости...</p>
-        <template v-else-if="newsStatus === 'success'">
+        <template v-else-if="newsStatus === 'success' && news && news.data">
             <IndexComponent
                     v-if="news.data.length > 1"
                     :key="index"
