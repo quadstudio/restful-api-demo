@@ -2168,8 +2168,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 
 
@@ -2262,8 +2260,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   annotation: this.item.annotation,
                   published_at: this.formatDate(this.item.published_at),
                   image: this.item.image
-                }; //console.log(attributes);
-
+                };
                 _context.next = 5;
                 return this.$store.dispatch("storeSingleNews", attributes);
 
@@ -2307,6 +2304,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var dropzone__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! dropzone */ "./node_modules/dropzone/dist/dropzone.js");
+/* harmony import */ var dropzone__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(dropzone__WEBPACK_IMPORTED_MODULE_5__);
 
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -2393,6 +2392,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -2401,7 +2418,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   name: "NewsEdit",
   data: function data() {
     return {
-      ru: vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_2__["ru"]
+      ru: vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_2__["ru"],
+      dropzone: null,
+      src: null
     };
   },
   components: {
@@ -2437,6 +2456,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return this.$store.dispatch('fetchSingleNews', this.$route.params.newsId);
 
             case 2:
+              this.dropzone = new dropzone__WEBPACK_IMPORTED_MODULE_5___default.a(this.$refs.newsImage, this.settings);
+
+            case 3:
             case "end":
               return _context.stop();
           }
@@ -2453,7 +2475,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapGetters"])({
     item: 'newsShow',
     newsStatus: 'newsStatus'
-  })),
+  }), {
+    settings: function settings() {
+      var _this = this;
+
+      return {
+        paramName: 'data[attributes][image]',
+        url: '/api/v1/images',
+        acceptedFiles: 'image/*',
+        params: {
+          'data[attributes][width]': 720,
+          'data[attributes][height]': 405,
+          'data[attributes][storage]': 'news'
+        },
+        clickable: '.dz-clickable',
+        headers: {
+          'X-CSRF-TOKEN': document.head.querySelector('meta[name=csrf-token]').content
+        },
+        success: function success(e, res) {
+          _this.item.relationships.image = res;
+        },
+        "catch": function _catch(e) {//console.error(e);
+        }
+      };
+    }
+  }),
   methods: {
     submit: function () {
       var _submit = _asyncToGenerator(
@@ -2476,7 +2522,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   title: this.item.attributes.title,
                   body: this.item.attributes.body,
                   annotation: this.item.attributes.annotation,
-                  published_at: this.formatDate(this.item.attributes.published_at)
+                  published_at: this.formatDate(this.item.attributes.published_at),
+                  image: this.item.relationships.image.data.id
                 };
                 _context2.next = 6;
                 return this.$store.dispatch("updateNews", {
@@ -2731,6 +2778,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -43164,6 +43219,44 @@ var render = function() {
                 : _vm._e()
             ]),
             _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "body" } }, [_vm._v("Изображение")]),
+              _vm._v(" "),
+              _c("div", [
+                _c("div", { staticClass: "border" }, [
+                  _c(
+                    "svg",
+                    {
+                      ref: "newsImage",
+                      staticClass: "dz-clickable",
+                      staticStyle: { width: "50px" },
+                      attrs: {
+                        xmlns: "http://www.w3.org/2000/svg",
+                        viewBox: "0 0 24 24"
+                      }
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          d:
+                            "M21.8 4H2.2c-.2 0-.3.2-.3.3v15.3c0 .3.1.4.3.4h19.6c.2 0 .3-.1.3-.3V4.3c0-.1-.1-.3-.3-.3zm-1.6 13.4l-4.4-4.6c0-.1-.1-.1-.2 0l-3.1 2.7-3.9-4.8h-.1s-.1 0-.1.1L3.8 17V6h16.4v11.4zm-4.9-6.8c.9 0 1.6-.7 1.6-1.6 0-.9-.7-1.6-1.6-1.6-.9 0-1.6.7-1.6 1.6.1.9.8 1.6 1.6 1.6z"
+                        }
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("small", { staticClass: "text-muted" }, [
+                    _vm._v("Кликните по пиктограмме для выбор изображения")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("img", {
+                  staticClass: "mw-100",
+                  attrs: { src: _vm.item.relationships.image.data.links.self }
+                })
+              ])
+            ]),
+            _vm._v(" "),
             _c(
               "button",
               { staticClass: "btn btn-primary", on: { click: _vm.submit } },
@@ -43254,7 +43347,7 @@ var render = function() {
       _vm._v(" "),
       _vm.newsStatus === "loading"
         ? _c("p", [_vm._v("Загружаем новости...")])
-        : _vm.newsStatus === "success"
+        : _vm.newsStatus === "success" && _vm.news && _vm.news.data
         ? _vm._l(_vm.news.data, function(item, index) {
             return _vm.news.data.length > 1
               ? _c("IndexComponent", { key: index, attrs: { item: item } })
@@ -43449,7 +43542,40 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("404")])
+  return _c("div", { staticClass: "container" }, [
+    _c(
+      "div",
+      {
+        staticClass:
+          "position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light"
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "col-md-8 p-lg-8 mx-auto my-5" },
+          [
+            _c("h1", { staticClass: "display-4 font-weight-normal" }, [
+              _vm._v("404")
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "lead font-weight-normal" }, [
+              _vm._v("Страница не найдена")
+            ]),
+            _vm._v(" "),
+            _c(
+              "router-link",
+              {
+                staticClass: "btn btn-outline-secondary",
+                attrs: { to: { name: "news.index" } }
+              },
+              [_vm._v("К новостям")]
+            )
+          ],
+          1
+        )
+      ]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -65079,8 +65205,7 @@ var actions = {
             case 0:
               dispatch = _ref5.dispatch, commit = _ref5.commit;
               newsId = _ref6.newsId, attributes = _ref6.attributes;
-              commit('setNewsStatus', 'pending'); //console.log(attributes);
-
+              commit('setNewsStatus', 'pending');
               _context5.next = 5;
               return axios.patch('/api/v1/news/' + newsId, {
                 data: {
@@ -65088,12 +65213,9 @@ var actions = {
                   attributes: attributes
                 }
               }).then(function (res) {
-                console.log(res.data); //commit('setNews', res.data);
-
                 commit('setNewsStatus', 'success');
               })["catch"](function (error) {
                 commit('setNewsStatus', 'error');
-                console.log(error);
               });
 
             case 5:
