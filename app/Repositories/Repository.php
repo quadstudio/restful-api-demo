@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 
-use App\Contracts\RepositoryInterface;
 use App\Contracts\FilterInterface;
+use App\Contracts\RepositoryInterface;
 use App\Exceptions\BadFilterInstanceException;
 use App\Exceptions\BadModelException;
 use Illuminate\Database\Eloquent\Builder;
@@ -53,7 +53,7 @@ abstract class Repository implements RepositoryInterface
 	 * @return Repository
 	 * @throws BadModelException
 	 */
-	final public function reset():self
+	final public function reset(): self
 	{
 		$this->resetBuilder();
 		$this->resetFilters();
@@ -202,16 +202,6 @@ abstract class Repository implements RepositoryInterface
 	}
 
 	/**
-	 * @param Relation $relation
-	 * @param array $data
-	 *
-	 * @return Model
-	 */
-	public function createRelation(Relation $relation, array $data){
-		return $relation->create($data);
-	}
-
-	/**
 	 * @return \Illuminate\Database\Eloquent\Builder
 	 */
 	private function builder(): Builder
@@ -219,11 +209,26 @@ abstract class Repository implements RepositoryInterface
 		return $this->builder;
 	}
 
+	/**
+	 * @param Relation $relation
+	 * @param array $data
+	 *
+	 * @return Model
+	 */
+	public function createRelation(Relation $relation, array $data)
+	{
+		return $relation->create($data);
+	}
+
 	public function update($id, array $data)
 	{
 		$model = $this->find($id);
 
+		$this->beforeUpdate($model, $data);
+
 		$model->update($data);
+
+		$this->afterUpdate($model, $data);
 
 		return $model;
 	}
@@ -296,6 +301,16 @@ abstract class Repository implements RepositoryInterface
 		$key = $model->getRouteKeyName();
 
 		return $model->qualifyColumn($key);
+	}
+
+	protected function beforeUpdate(Model $model, array $data)
+	{
+
+	}
+
+	protected function afterUpdate(Model $model, array $data)
+	{
+
 	}
 
 	/**
@@ -372,35 +387,6 @@ abstract class Repository implements RepositoryInterface
 	}
 
 	/**
-	 * @param null $group
-	 *
-	 * @return \Illuminate\Database\Eloquent\Collection
-	 */
-	public function getCollection($group = null)
-	{
-		return $this
-			->addGroupFilters($group ?? [])
-			->get();
-	}
-
-	/**
-	 * @param array $columns
-	 *
-	 * @return \Illuminate\Database\Eloquent\Collection
-	 */
-	function get($columns = ['*'])
-	{
-
-		$this->applyFilters();
-
-		$builder = $this
-			->builder()
-			->select($columns);
-
-		return $builder->get();
-	}
-
-	/**
 	 * @param string|array $group
 	 *
 	 * @return $this
@@ -433,6 +419,35 @@ abstract class Repository implements RepositoryInterface
 	protected function groupFilters(): array
 	{
 		return [];
+	}
+
+	/**
+	 * @param null $group
+	 *
+	 * @return \Illuminate\Database\Eloquent\Collection
+	 */
+	public function getCollection($group = null)
+	{
+		return $this
+			->addGroupFilters($group ?? [])
+			->get();
+	}
+
+	/**
+	 * @param array $columns
+	 *
+	 * @return \Illuminate\Database\Eloquent\Collection
+	 */
+	function get($columns = ['*'])
+	{
+
+		$this->applyFilters();
+
+		$builder = $this
+			->builder()
+			->select($columns);
+
+		return $builder->get();
 	}
 
 	/**

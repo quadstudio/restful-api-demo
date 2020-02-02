@@ -11,6 +11,7 @@ use App\Filters\News\WithAuthorFilter;
 use App\Filters\News\WithImageFilter;
 use App\Models\Image;
 use App\Models\News;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
@@ -30,26 +31,27 @@ class NewsRepository extends Repository
 		return News::class;
 	}
 
-	public function getCollection($group = 'getAll')
-	{
-		return $this
-			->addGroupFilters($group)
-			->get();
-	}
-
 	public function createRelation(Relation $relation, array $data)
 	{
+		$model = parent::createRelation($relation, $data);
+		$this->saveImage($model, $data);
+		return $model;
+	}
 
-		/** @var News $news */
-		$news = parent::createRelation($relation, $data);
+	private function saveImage(Model $model, array $data)
+	{
 		if (isset($data['image'])) {
 			Image::query()->find($data['image'])->update([
 				'imageable_type' => 'news',
-				'imageable_id' => $news->getKey(),
+				'imageable_id' => $model->getKey(),
 			]);
 		}
 
-		return $news;
+	}
+
+	protected function afterUpdate(Model $model, array $data)
+	{
+		$this->saveImage($model, $data);
 	}
 
 	public function getModel($id, $group = 'getFullModel')

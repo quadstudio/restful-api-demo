@@ -38,7 +38,7 @@ class NewsController extends Controller
 	public function index()
 	{
 		return response()->json(
-			NewsCollection::make($this->news->getCollection()),
+			NewsCollection::make($this->news->getCollection('getAll')),
 			Response::HTTP_OK,
 			['Content-Type' => 'application/vnd.api+json']
 		);
