@@ -20,7 +20,6 @@
         <template v-else-if="newsStatus === 'success' && news && news.data">
             <template v-if="news.data.length >= 1">
                 <IndexComponent
-                        v-if="news.data.length >= 1"
                         :key="index"
                         v-for="(item, index) in news.data"
                         :item="item"/>
@@ -49,9 +48,9 @@
                 return authorStatus.author === 'success';
             }
         },
-        mounted() {
-            this.$store.dispatch('fetchAuthor', this.$route.params.authorId);
-            this.$store.dispatch('fetchAuthorNews', this.$route.params.authorId);
+        async mounted() {
+            await this.$store.dispatch('fetchAuthor', this.$route.params.authorId);
+            await this.$store.dispatch('fetchAuthorNews', this.$route.params.authorId);
         },
         computed: {
             ...mapGetters({
