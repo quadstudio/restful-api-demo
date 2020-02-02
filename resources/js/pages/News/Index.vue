@@ -10,20 +10,24 @@
         </nav>
         <div class="d-flex flex-row justify-content-between align-items-center">
             <h2>Новости</h2>
-            <template v-if="newsStatus === 'success' && authUser">
+            <template v-if="userStatus === 'success'">
                 <router-link :to="{name: 'news.add'}" class="btn btn-secondary">Добавить</router-link>
             </template>
         </div>
         <p v-if="newsStatus === 'loading'">Загружаем новости...</p>
         <template v-else-if="newsStatus === 'success' && news && news.data">
-            <IndexComponent
-                    v-if="news.data.length > 1"
-                    :key="index"
-                    v-for="(item, index) in news.data"
-                    :item="item" />
+            <template v-if="news.data.length >= 1">
+                <IndexComponent
+                        :key="index"
+                        v-for="(item, index) in news.data"
+                        :item="item"/>
+            </template>
+            <p v-else="newsStatus === 'error'">
+                Новости не найдены...
+            </p>
         </template>
         <p v-else-if="newsStatus === 'error'">
-            error
+            Произошла ошибка...
         </p>
     </div>
 </template>
@@ -45,7 +49,8 @@
             ...mapGetters({
                 news: 'news',
                 newsStatus: 'newsStatus',
-                authUser: 'authUser'
+                authUser: 'authUser',
+                userStatus: 'userStatus',
             })
         }
     }

@@ -2609,6 +2609,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2648,7 +2652,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])({
     news: 'news',
     newsStatus: 'newsStatus',
-    authUser: 'authUser'
+    authUser: 'authUser',
+    userStatus: 'userStatus'
   }))
 });
 
@@ -42885,7 +42890,7 @@ var render = function() {
       _vm._v(" "),
       _vm.$v.item.body.$dirty && !_vm.$v.item.body.required
         ? _c("div", { staticClass: "invalid-feedback" }, [
-            _vm._v("\n            Превью является обязательным\n        ")
+            _vm._v("\n            Текст является обязательным\n        ")
           ])
         : _vm._e()
     ]),
@@ -43329,7 +43334,7 @@ var render = function() {
         [
           _c("h2", [_vm._v("Новости")]),
           _vm._v(" "),
-          _vm.newsStatus === "success" && _vm.authUser
+          _vm.userStatus === "success"
             ? [
                 _c(
                   "router-link",
@@ -43348,13 +43353,20 @@ var render = function() {
       _vm.newsStatus === "loading"
         ? _c("p", [_vm._v("Загружаем новости...")])
         : _vm.newsStatus === "success" && _vm.news && _vm.news.data
-        ? _vm._l(_vm.news.data, function(item, index) {
-            return _vm.news.data.length > 1
-              ? _c("IndexComponent", { key: index, attrs: { item: item } })
-              : _vm._e()
-          })
+        ? [
+            _vm.news.data.length >= 1
+              ? _vm._l(_vm.news.data, function(item, index) {
+                  return _c("IndexComponent", {
+                    key: index,
+                    attrs: { item: item }
+                  })
+                })
+              : _c("p", [
+                  _vm._v("\n            Новости не найдены...\n        ")
+                ])
+          ]
         : _vm.newsStatus === "error"
-        ? _c("p", [_vm._v("\n        error\n    ")])
+        ? _c("p", [_vm._v("\n        Произошла ошибка...\n    ")])
         : _vm._e()
     ],
     2
@@ -65269,6 +65281,9 @@ var state = {
 var getters = {
   authUser: function authUser(state) {
     return state.user;
+  },
+  userStatus: function userStatus(state) {
+    return state.userStatus;
   }
 };
 var actions = {
@@ -65279,14 +65294,18 @@ var actions = {
       return res.data;
     }).then(function (user) {
       commit('setProfile', user.data);
+      commit('setProfileStatus', 'success');
     })["catch"](function (error) {
-      console.log('Unable to fetch the user from the server');
+      commit('setProfileStatus', 'error');
     });
   }
 };
 var mutations = {
-  setProfile: function setProfile(state, profile) {
-    state.user = profile;
+  setProfileStatus: function setProfileStatus(state, userStatus) {
+    state.userStatus = userStatus;
+  },
+  setProfile: function setProfile(state, user) {
+    state.user = user;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({

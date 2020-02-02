@@ -3,7 +3,8 @@ const state = {
     userStatus: null
 };
 const getters = {
-    authUser: state => state.user
+    authUser: state => state.user,
+    userStatus: state => state.userStatus
 };
 
 const actions = {
@@ -12,16 +13,20 @@ const actions = {
             .then(res => res.data)
             .then(user => {
                 commit('setProfile', user.data);
+                commit('setProfileStatus', 'success');
             })
             .catch(error => {
-                console.log('Unable to fetch the user from the server');
+                commit('setProfileStatus', 'error');
             });
     }
 };
 
 const mutations = {
-    setProfile(state, profile) {
-        state.user = profile;
+    setProfileStatus(state, userStatus) {
+        state.userStatus = userStatus;
+    },
+    setProfile(state, user) {
+        state.user = user;
     }
 };
 

@@ -55,7 +55,7 @@
                       rows="6"
                       placeholder="Введите текст новости"></textarea>
             <div class="invalid-feedback" v-if="$v.item.body.$dirty && !$v.item.body.required">
-                Превью является обязательным
+                Текст является обязательным
             </div>
         </div>
         <div class="form-group">
