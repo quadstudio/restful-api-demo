@@ -22,7 +22,7 @@
                         v-for="(item, index) in news.data"
                         :item="item"/>
             </template>
-            <p v-else="newsStatus === 'error'">
+            <p v-else>
                 Новости не найдены...
             </p>
         </template>

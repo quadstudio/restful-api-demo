@@ -8,22 +8,29 @@
                 <li class="breadcrumb-item">
                     <router-link :to="{name: 'news.index'}">Новости</router-link>
                 </li>
-                <li v-if="authorIsLoaded && author" class="breadcrumb-item active" aria-current="page">От автора {{author.data.attributes.name}}</li>
+                <li v-if="authorIsLoaded && author" class="breadcrumb-item active" aria-current="page">От автора
+                    {{author.data.attributes.name}}
+                </li>
             </ol>
         </nav>
         <template v-if="authorIsLoaded && author">
             <h2>Новости от автора {{author.data.attributes.name}}</h2>
         </template>
         <p v-if="newsStatus === 'loading'">Загружаем новости...</p>
-        <template v-else-if="newsStatus === 'success'">
-            <IndexComponent
-                    v-if="news.data.length > 1"
-                    :key="index"
-                    v-for="(item, index) in news.data"
-                    :item="item" />
+        <template v-else-if="newsStatus === 'success' && news && news.data">
+            <template v-if="news.data.length >= 1">
+                <IndexComponent
+                        v-if="news.data.length >= 1"
+                        :key="index"
+                        v-for="(item, index) in news.data"
+                        :item="item"/>
+            </template>
+            <p v-else>
+                Новости не найдены...
+            </p>
         </template>
         <p v-else-if="newsStatus === 'error'">
-            error
+            Произошла ошибка...
         </p>
     </div>
 </template>
@@ -31,6 +38,7 @@
 <script>
     import {mapGetters} from 'vuex';
     import IndexComponent from '../../components/News/IndexComponent';
+
     export default {
         name: "AuthorShow",
         components: {

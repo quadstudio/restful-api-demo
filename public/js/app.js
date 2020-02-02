@@ -2008,6 +2008,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -42568,7 +42575,13 @@ var render = function() {
                   staticClass: "breadcrumb-item active",
                   attrs: { "aria-current": "page" }
                 },
-                [_vm._v("От автора " + _vm._s(_vm.author.data.attributes.name))]
+                [
+                  _vm._v(
+                    "От автора\n                " +
+                      _vm._s(_vm.author.data.attributes.name) +
+                      "\n            "
+                  )
+                ]
               )
             : _vm._e()
         ])
@@ -42586,14 +42599,23 @@ var render = function() {
       _vm._v(" "),
       _vm.newsStatus === "loading"
         ? _c("p", [_vm._v("Загружаем новости...")])
-        : _vm.newsStatus === "success"
-        ? _vm._l(_vm.news.data, function(item, index) {
-            return _vm.news.data.length > 1
-              ? _c("IndexComponent", { key: index, attrs: { item: item } })
-              : _vm._e()
-          })
+        : _vm.newsStatus === "success" && _vm.news && _vm.news.data
+        ? [
+            _vm.news.data.length >= 1
+              ? _vm._l(_vm.news.data, function(item, index) {
+                  return _vm.news.data.length >= 1
+                    ? _c("IndexComponent", {
+                        key: index,
+                        attrs: { item: item }
+                      })
+                    : _vm._e()
+                })
+              : _c("p", [
+                  _vm._v("\n            Новости не найдены...\n        ")
+                ])
+          ]
         : _vm.newsStatus === "error"
-        ? _c("p", [_vm._v("\n        error\n    ")])
+        ? _c("p", [_vm._v("\n        Произошла ошибка...\n    ")])
         : _vm._e()
     ],
     2
