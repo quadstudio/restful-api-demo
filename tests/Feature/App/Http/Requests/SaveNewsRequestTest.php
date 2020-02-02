@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\App\Http\Request;
+namespace Tests\Feature\App\Http\Requests;
 
 use App\Http\Requests\NewsRequest;
 use App\User;
