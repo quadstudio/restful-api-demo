@@ -63,17 +63,13 @@ const actions = {
     },
     async updateNews({dispatch, commit}, {newsId, attributes}) {
         commit('setNewsStatus', 'pending');
-        //console.log(attributes);
         await axios
             .patch('/api/v1/news/' + newsId, {data: {type: 'news', attributes}})
             .then(res => {
-                console.log(res.data);
-                //commit('setNews', res.data);
                 commit('setNewsStatus', 'success');
             })
             .catch(error => {
                 commit('setNewsStatus', 'error');
-                console.log(error);
             });
     },
 };
