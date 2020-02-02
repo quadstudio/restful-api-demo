@@ -74,8 +74,6 @@
 
                 <img v-if="src" class="mw-100" :src="src"/>
             </div>
-            <!--<input type="hidden" v-model="image"/>-->
-
         </div>
         <button @click="submit" class="btn btn-primary">Сохранить</button>
     </div>
@@ -165,17 +163,7 @@
                         published_at: this.formatDate(this.item.published_at),
                         image: this.item.image,
                     };
-                    //console.log(attributes);
                     await this.$store.dispatch("storeSingleNews", attributes);
-
-                    // this.title = null;
-                    // this.body = null;
-                    // this.annotation = null;
-                    // this.published_at = null;
-                    // this.$v.reset();
-                    // do your submit logic here
-                    //this.submitStatus = 'PENDING'
-
                 }
             },
             formatDate(date) {
